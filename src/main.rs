@@ -13,8 +13,10 @@ fn main() {
         .arg("libinput")
         .arg("debug-events")
         .stdout(Stdio::piped())
-        .spawn().expect("can not exec libinput")
-        .stdout.expect("libinput has no stdout");
+        .spawn()
+        .expect("can not exec libinput")
+        .stdout
+        .expect("libinput has no stdout");
 
     let xdo = XDo::new(None).expect("can not initialize libxdo");
 
