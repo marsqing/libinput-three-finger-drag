@@ -41,8 +41,8 @@ So with this tool, you can use three-finger-drag with libinput(the underlying to
 4. cargo build --release
 5. copy target/release/libinput-three-finger-drag to somewhere
 6. disable 3 finger swipe gesture in libinput-gestures, see below
-6. run libinput-three-finger-drag and check whether it works
-7. make libinput-three-finger-drag auto-start
+7. run libinput-three-finger-drag and check whether it works
+8. make libinput-three-finger-drag auto-start
 ```
 ## Download binary
 ```
