@@ -32,6 +32,8 @@ so if you use the [three-finger-drag fork](https://github.com/daveriedstra/libin
 # INSTALLATION
 
 So with this tool, you can use three-finger-drag with libinput(the underlying tool libinput-gestures based on). You probably will use it with libinput-gestures side by side to add three-finger-drag support.
+
+## From Source
 ```
 1. clone the repo
 2. install libinput(you probably have it already)
@@ -41,6 +43,13 @@ So with this tool, you can use three-finger-drag with libinput(the underlying to
 6. disable 3 finger swipe gesture in libinput-gestures, see below
 6. run libinput-three-finger-drag and check whether it works
 7. make libinput-three-finger-drag auto-start
+```
+## Download binary
+```
+1. download precompiled binary from release page
+2. disable 3 finger swipe gesture in libinput-gestures, see below
+3. run libinput-three-finger-drag and check whether it works
+4. make libinput-three-finger-drag auto-start
 ```
 
 ## Disable 3 finger swipe gesture in libinput-gestures
