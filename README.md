@@ -2,7 +2,7 @@
 OSX users will miss the three-finger-drag feature when switch to Linux. With that feature, you can easily select text or drag something around. On Linux, there are two common options to achieve this:
 1. [mtrack](https://github.com/p2rkw/xf86-input-mtrack)
 
-set the following options in xorg.conf and you get three-finger-track
+set the following options in xorg.conf and you get three-finger-drag
 ```
 Option "SwipeUpButton" "1"
 Option "SwipeDownButton" "1"
@@ -18,7 +18,7 @@ The problems of mtrack are:
 
 2. [libinput-gestures](https://github.com/bulletmark/libinput-gestures)
 
-libinput-gestures do not natively support three-finger-track. You need to use this fork [three-finger-drag fork](https://github.com/daveriedstra/libinput-gestures/tree/three-finger-drag) which is mentioned in this [libinput-gestures three-finger-drag issue](https://github.com/bulletmark/libinput-gestures/issues/10#issuecomment-441459797). As the author of libinput-gestures [replied](https://github.com/bulletmark/libinput-gestures/issues/10#issuecomment-247980222), libinput-gestures won't support three-finger-track due to "To implement this would be messy, require significant processing overhead, and is discordant with the current design.". 
+libinput-gestures do not natively support three-finger-drag. You need to use this fork [three-finger-drag fork](https://github.com/daveriedstra/libinput-gestures/tree/three-finger-drag) which is mentioned in this [libinput-gestures three-finger-drag issue](https://github.com/bulletmark/libinput-gestures/issues/10#issuecomment-441459797). As the author of libinput-gestures [replied](https://github.com/bulletmark/libinput-gestures/issues/10#issuecomment-247980222), libinput-gestures won't support three-finger-drag due to "To implement this would be messy, require significant processing overhead, and is discordant with the current design.". 
 
 so if you use the [three-finger-drag fork](https://github.com/daveriedstra/libinput-gestures/tree/three-finger-drag) of libinput-gestures:
 * you can't use new features of libinput-gestures because the two repos can not be merged easily
