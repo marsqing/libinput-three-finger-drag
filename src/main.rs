@@ -57,8 +57,8 @@ fn main() {
                     this_app_mouse_down = true;
                 }
                 "GESTURE_SWIPE_UPDATE" => {
-                    let x: f32 = parts[6].parse().unwrap();
-                    let y: f32 = parts[7].parse().unwrap();
+                    let x: f32 = parts[4].parse().unwrap();
+                    let y: f32 = parts[5].parse().unwrap();
                     xsum += x * acceleration;
                     ysum += y * acceleration;
                     if xsum.abs() > 1.0 || ysum.abs() > 1.0 {
