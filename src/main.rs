@@ -34,6 +34,8 @@ fn main() {
     let mut xsum: f32 = 0.0;
     let mut ysum: f32 = 0.0;
     let pattern = Regex::new(r"[\s]+|/|\(").unwrap();
+    let mut this_app_mouse_down = false;
+
     for line in io::BufReader::new(output).lines() {
         let line = line.unwrap();
         if let Some(_) = line.find("GESTURE_SWIPE_") {
@@ -41,6 +43,10 @@ fn main() {
             let action = parts[1];
             let finger = parts[3];
             if finger != "3" {
+                if this_app_mouse_down {
+                    xdo.mouse_up(1).unwrap();
+                    this_app_mouse_down = false;
+                }
                 continue;
             }
             match action {
@@ -48,6 +54,7 @@ fn main() {
                     xsum = 0.0;
                     ysum = 0.0;
                     xdo.mouse_down(1).unwrap();
+                    this_app_mouse_down = true;
                 }
                 "GESTURE_SWIPE_UPDATE" => {
                     let x: f32 = parts[6].parse().unwrap();
@@ -62,9 +69,11 @@ fn main() {
                 }
                 _ => {
                     xdo.move_mouse_relative(xsum as i32, ysum as i32).unwrap();
-                    xdo.mouse_up(1).unwrap();
                 }
             }
+        } else if this_app_mouse_down {
+            xdo.mouse_up(1).unwrap();
+            this_app_mouse_down = false;
         }
     }
 }
