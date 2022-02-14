@@ -5,5 +5,5 @@ authors = ["marsqing <0124011@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-regex = ""
-libxdo = ""
+regex = "1.5.4"
+libxdo = "0.6.0"
