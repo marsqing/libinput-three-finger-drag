@@ -45,7 +45,7 @@ fn main() {
                     let y: f32 = parts[7].parse().unwrap();
                     xsum += x;
                     ysum += y;
-                    if xsum.abs() > 5.0 || ysum.abs() > 5.0 {
+                    if xsum.abs() > 1.0 || ysum.abs() > 1.0 {
                         xdo.move_mouse_relative(xsum as i32, ysum as i32).unwrap();
                         xsum = 0.0;
                         ysum = 0.0;
