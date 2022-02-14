@@ -6,8 +6,17 @@ use regex::Regex;
 use std::io::{self, BufRead};
 use std::iter::Iterator;
 use std::process::{Command, Stdio};
+use std::env;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    let acceleration: f32;
+    if args.len() > 1 {
+        acceleration = args[1].parse::<f32>().unwrap_or(1.0);
+    } else {
+        acceleration = 1.0;
+    }
+
     let output = Command::new("stdbuf")
         .arg("-o0")
         .arg("libinput")
@@ -43,8 +52,8 @@ fn main() {
                 "GESTURE_SWIPE_UPDATE" => {
                     let x: f32 = parts[6].parse().unwrap();
                     let y: f32 = parts[7].parse().unwrap();
-                    xsum += x;
-                    ysum += y;
+                    xsum += x * acceleration;
+                    ysum += y * acceleration;
                     if xsum.abs() > 1.0 || ysum.abs() > 1.0 {
                         xdo.move_mouse_relative(xsum as i32, ysum as i32).unwrap();
                         xsum = 0.0;
