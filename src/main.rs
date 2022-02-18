@@ -71,7 +71,11 @@ fn main() {
                 }
                 _ => {
                     xdo_handler.move_mouse_relative(xsum as i32, ysum as i32);
-                    xdo_handler.mouse_up_delay(1, 750);
+                    if parts.len() > 4 && parts[4] == "cancelled" {
+                        xdo_handler.mouse_up(1);
+                    } else {
+                        xdo_handler.mouse_up_delay(1, 750);
+                    }
                 }
             }
         } else if this_app_mouse_down {
