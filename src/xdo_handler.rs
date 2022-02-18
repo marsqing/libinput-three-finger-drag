@@ -25,8 +25,8 @@ pub fn start_handler() -> XDoHandler {
     let timer = Timer::new();
 
     thread::spawn(move || {
+        let xdo = XDo::new(None).expect("can not initialize libxdo");
         loop {
-            let xdo = XDo::new(None).expect("can not initialize libxdo");
             let (command, param1, param2) = rx.recv().unwrap();
             match command {
                 XDoCommand::LeftMouseDown => {
