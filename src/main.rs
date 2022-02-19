@@ -28,10 +28,6 @@ fn main() {
         .expect("libinput has no stdout");
 
     let mut this_app_mouse_down = false;
-
-    // GESTURE_SWIPE_BEGIN, GESTURE_SWIPE_UPDATE, GESTURE_SWIPE_END
-    // event10  GESTURE_SWIPE_UPDATE +3.769s	4  0.25/ 0.48 ( 0.95/ 1.85 unaccelerated)
-    
     let mut xdo_handler = xdo_handler::start_handler();
 
     let mut xsum: f32 = 0.0;
@@ -40,7 +36,8 @@ fn main() {
 
     for line in io::BufReader::new(output).lines() {
         let line = line.unwrap();
-        if let Some(_) = line.find("GESTURE_SWIPE_") {
+        if let Some(_) = line.find("GESTURE_") {
+            // event10  GESTURE_SWIPE_UPDATE +3.769s	4  0.25/ 0.48 ( 0.95/ 1.85 unaccelerated)
             let parts: Vec<&str> = pattern.split(&line).filter(|c| !c.is_empty()).collect();
             let action = parts[1];
             let finger = parts[3];
@@ -51,6 +48,8 @@ fn main() {
                 }
                 continue;
             }
+            let cancelled = parts.len() > 4 && parts[4] == "cancelled";
+
             match action {
                 "GESTURE_SWIPE_BEGIN" => {
                     xsum = 0.0;
@@ -69,12 +68,34 @@ fn main() {
                         ysum = 0.0;
                     }
                 }
-                _ => {
+                "GESTURE_SWIPE_END" => {
                     xdo_handler.move_mouse_relative(xsum as i32, ysum as i32);
-                    if parts.len() > 4 && parts[4] == "cancelled" {
+                    if cancelled {
                         xdo_handler.mouse_up(1);
+                        this_app_mouse_down = false;
                     } else {
-                        xdo_handler.mouse_up_delay(1, 750);
+                        xdo_handler.mouse_up_delay(1, 600);
+                        // Minor bug here: if the delay does actually fire, this_app_mouse_down is never 
+                        // set to false, so the next libinput event will send another mouse_up(1). 
+                        // However, in my testing, this had no noticeable effect.
+                        // TODO: move "this_app_mouse_down" to XDoHandler impl functions?
+                    }
+                }
+                "GESTURE_HOLD_BEGIN" => {
+                    // Ignore
+                }
+                "GESTURE_HOLD_END" => {
+                    // Ignore accidental holds when repositioning
+                    if this_app_mouse_down && !cancelled {
+                        xdo_handler.mouse_up(1);
+                        this_app_mouse_down = false;
+                    }
+                }
+                _ => {
+                    // GESTURE_PINCH_*,
+                    if this_app_mouse_down {
+                        xdo_handler.mouse_up(1);
+                        this_app_mouse_down = false;
                     }
                 }
             }
