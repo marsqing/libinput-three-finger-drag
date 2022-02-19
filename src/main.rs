@@ -27,7 +27,6 @@ fn main() {
         .stdout
         .expect("libinput has no stdout");
 
-    let mut this_app_mouse_down = false;
     let mut xdo_handler = xdo_handler::start_handler();
 
     let mut xsum: f32 = 0.0;
@@ -42,10 +41,7 @@ fn main() {
             let action = parts[1];
             let finger = parts[3];
             if finger != "3" {
-                if this_app_mouse_down {
-                    xdo_handler.mouse_up(1);
-                    this_app_mouse_down = false;
-                }
+                xdo_handler.mouse_up(1);
                 continue;
             }
             let cancelled = parts.len() > 4 && parts[4] == "cancelled";
@@ -55,7 +51,6 @@ fn main() {
                     xsum = 0.0;
                     ysum = 0.0;
                     xdo_handler.mouse_down(1);
-                    this_app_mouse_down = true;
                 }
                 "GESTURE_SWIPE_UPDATE" => {
                     let x: f32 = parts[4].parse().unwrap();
@@ -72,13 +67,8 @@ fn main() {
                     xdo_handler.move_mouse_relative(xsum as i32, ysum as i32);
                     if cancelled {
                         xdo_handler.mouse_up(1);
-                        this_app_mouse_down = false;
                     } else {
                         xdo_handler.mouse_up_delay(1, 600);
-                        // Minor bug here: if the delay does actually fire, this_app_mouse_down is never 
-                        // set to false, so the next libinput event will send another mouse_up(1). 
-                        // However, in my testing, this had no noticeable effect.
-                        // TODO: move "this_app_mouse_down" to XDoHandler impl functions?
                     }
                 }
                 "GESTURE_HOLD_BEGIN" => {
@@ -86,22 +76,17 @@ fn main() {
                 }
                 "GESTURE_HOLD_END" => {
                     // Ignore accidental holds when repositioning
-                    if this_app_mouse_down && !cancelled {
+                    if !cancelled {
                         xdo_handler.mouse_up(1);
-                        this_app_mouse_down = false;
                     }
                 }
                 _ => {
                     // GESTURE_PINCH_*,
-                    if this_app_mouse_down {
-                        xdo_handler.mouse_up(1);
-                        this_app_mouse_down = false;
-                    }
+                    xdo_handler.mouse_up(1);
                 }
             }
-        } else if this_app_mouse_down {
+        } else {
             xdo_handler.mouse_up(1);
-            this_app_mouse_down = false;
         }
     }
 }
