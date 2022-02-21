@@ -52,6 +52,13 @@ So with this tool, you can use three-finger-drag with libinput(the underlying to
 4. make libinput-three-finger-drag auto-start
 ```
 
+## Options
+
+You can specify an acceleration value as a parameter, which will be multiplied with all 3-finger gesture movements:
+```
+libinput-three-finger-drag 1.4
+```
+
 ## Disable 3 finger swipe gesture in libinput-gestures
 Modify libinput-gestures config file /etc/libinput-gestures.conf or ~/.config/libinput-gestures.conf. 
 Add finger_count 4 to essentially disable 3 finger swipe.

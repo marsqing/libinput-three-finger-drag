@@ -1,9 +1,11 @@
 [package]
 name = "libinput-three-finger-drag"
-version = "0.1.0"
-authors = ["marsqing <0124011@gmail.com>"]
+version = "0.2.0"
+authors = ["marsqing <0124011@gmail.com>", "Dale A. Jackson <JacksonWrath@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-regex = ""
-libxdo = ""
+regex = "1.5.4"
+libxdo = "0.6.0"
+timer = "0.2.0"
+chrono = "0.4.19"
