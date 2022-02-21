@@ -40,7 +40,7 @@ fn main() {
             let parts: Vec<&str> = pattern.split(&line).filter(|c| !c.is_empty()).collect();
             let action = parts[1];
             let finger = parts[3];
-            if finger != "3" {
+            if finger != "3" && !action.starts_with("GESTURE_HOLD"){
                 xdo_handler.mouse_up(1);
                 continue;
             }
