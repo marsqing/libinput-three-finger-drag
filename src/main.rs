@@ -35,7 +35,7 @@ fn main() {
 
     for line in io::BufReader::new(output).lines() {
         let line = line.unwrap();
-        if let Some(_) = line.find("GESTURE_") {
+        if line.contains("GESTURE_") {
             // event10  GESTURE_SWIPE_UPDATE +3.769s	4  0.25/ 0.48 ( 0.95/ 1.85 unaccelerated)
             let parts: Vec<&str> = pattern.split(&line).filter(|c| !c.is_empty()).collect();
             let action = parts[1];
