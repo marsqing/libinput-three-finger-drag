@@ -43,12 +43,12 @@ pub fn start_handler() -> XDoHandler {
         }
     });
 
-    return XDoHandler {
-        tx: tx, 
-        timer: timer, 
+    XDoHandler {
+        tx, 
+        timer, 
         guard: None,
         handler_mouse_down: false,
-    };
+    }
 }
 
 impl XDoHandler {
@@ -91,7 +91,7 @@ impl XDoHandler {
                 self.guard = None;
                 self.handler_mouse_down = true;
             }
-            None => return,
+            None => (),
         }
     }
 }
